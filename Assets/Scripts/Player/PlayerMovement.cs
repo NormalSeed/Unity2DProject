@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private SurfaceEffector2D surfaceEffector;
+    public float inputX;
 
     private void Awake() => Init();
 
@@ -16,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void HorizontalMove(float speed)
     {
-        float inputX = Input.GetAxis("Horizontal");
+        inputX = Input.GetAxis("Horizontal");
 
         if (surfaceEffector == null)
         {

@@ -539,6 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d0c721b162693d4ba4153c639404f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputX: 0
 --- !u!114 &1186049213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +552,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f03337a8a1381524581a29db2733e571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Hp>k__BackingField: 5
+  <MoveSpd>k__BackingField: 5
+  <JumpPower>k__BackingField: 5
 --- !u!114 &1186049214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,7 +580,7 @@ GameObject:
   - component: {fileID: 1890108063}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
