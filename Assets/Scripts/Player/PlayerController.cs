@@ -1,13 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private IView view;
+    private IView view;
     private PlayerMovement movement;
     private PlayerModel model;
-    private Animator animator;
+
     private SpriteRenderer spriteRenderer;
 
     private bool isOnGround = true;
@@ -21,6 +22,12 @@ public class PlayerController : MonoBehaviour
             movement.PlayerJump(model.JumpPower);
             isOnGround = false;
             model.IsJumping.Value = true;
+        }
+        
+        //Test---
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            TakeDamage(1);
         }
     }
     private void FixedUpdate() 
@@ -46,9 +53,11 @@ public class PlayerController : MonoBehaviour
     private void Init()
     {
         model = GetComponent<PlayerModel>();
+        view = GetComponent<PlayerView>();
         movement = GetComponent<PlayerMovement>();
-        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        model.CurHp.Value = model.MaxHp;
+
         isOnGround = true;
     }
 
@@ -61,15 +70,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        // TODO: 공격을 받으면 model의 CurHp가 감소하게 하고 UI의 HP 갯수를 하나 줄여야 함
+        if (model.CurHp.Value > 0) model.CurHp.Value -= damage;
+    }
+
     public void SubscribeEvents()
     {
-        model.IsRunning.Subscribe(SetRunAnimation);
+        model.IsRunning.Subscribe(view.PlayRunAnimation);
+        model.CurHp.Subscribe(view.UpdateHpUI);
     }
 
     public void UnsubscribeEvents()
     {
-        model.IsRunning.Unsubscribe(SetRunAnimation);
+        model.IsRunning.Unsubscribe(view.PlayRunAnimation);
+        model.CurHp.Unsubscribe(view.UpdateHpUI);
     }
-
-    private void SetRunAnimation(bool value) => animator.SetBool("IsRun", value);
 }

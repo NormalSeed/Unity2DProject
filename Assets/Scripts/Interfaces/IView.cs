@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IView
 {
-    public void UpdateHp(int hp);
-    public void PlayRunAnimation();
+    public void UpdateHpUI(int value);
+    public void PlayRunAnimation(bool value);
     public virtual void PlayJumpAnimation(){ }
 
 }
