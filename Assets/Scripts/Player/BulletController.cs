@@ -6,6 +6,7 @@ public class BulletController : MonoBehaviour
 {
     private ObjectPool bulletPool;
     [SerializeField] private PooledObject bullet;
+    [SerializeField] private SpriteRenderer playerSpriteRenderer;
 
     private void Awake() => Init();
 
@@ -16,8 +17,19 @@ public class BulletController : MonoBehaviour
 
     public void Shoot()
     {
+        Vector2 fireDir = Vector2.right;
         Bullet bullet = GetBullet();
         bullet.transform.position = transform.position;
+        if (!playerSpriteRenderer.flipX)
+        {
+            bullet.Launch(fireDir);
+        }
+        else
+        {
+            bullet.bulletSR.flipX = true;
+            fireDir = Vector2.left;
+            bullet.Launch(fireDir);
+        }
     }
 
     public Bullet GetBullet()
