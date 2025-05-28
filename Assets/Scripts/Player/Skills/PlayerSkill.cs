@@ -18,7 +18,7 @@ public class PlayerSkill : MonoBehaviour
 
     public virtual bool CanUseSkill()
     {
-        if (cooldownTimer >= 0)
+        if (cooldownTimer <= 0)
         {
             UseSkill();
             cooldownTimer = coolTime;
@@ -34,7 +34,12 @@ public class PlayerSkill : MonoBehaviour
     }
 }
 
-public class QSkill : PlayerSkill
+public enum eSkill
+{
+    Q, W, E, R
+}
+
+public class Q_Skill : PlayerSkill
 {
     private BulletController bulletController;
 
@@ -52,13 +57,13 @@ public class QSkill : PlayerSkill
     IEnumerator CoShootTwice()
     {
         bulletController.Shoot();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         bulletController.Shoot();
-        yield break;
+        yield return new WaitForSeconds(0.5f);
     }
 }
 
-public class WSkill : PlayerSkill
+public class W_Skill : PlayerSkill
 {
     private BulletController bulletController;
 
@@ -80,11 +85,11 @@ public class WSkill : PlayerSkill
             bulletController.Shoot();
             yield return new WaitForSeconds(0.1f);
         }
-        yield break;
+        yield return new WaitForSeconds(0.5f);
     }
 }
 
-public class ESkill : PlayerSkill
+public class E_Skill : PlayerSkill
 {
     private Rigidbody2D rb;
 
@@ -98,4 +103,9 @@ public class ESkill : PlayerSkill
     {
         rb.AddForce(transform.right * 10, ForceMode2D.Impulse);
     }
+}
+
+public class R_Skill : PlayerSkill
+{
+    // TODO: 플레이어를 중심으로 범위를 설정해 범위 안에 있는 적들을 플레이어에게서 천천히 멀어지게 하고 데미지를 주는 스킬
 }

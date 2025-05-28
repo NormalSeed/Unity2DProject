@@ -335,9 +335,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 0}
   model: {fileID: 0}
+  skillSet: {fileID: 0}
+  skillKey: 0
   spriteRenderer: {fileID: 0}
   inputX: 0
   isOnGround: 1
+  generalSkillCool: 0.5
   isControllActivated: 1
 --- !u!114 &5997483353753372318
 MonoBehaviour:
@@ -588,7 +591,6 @@ GameObject:
   m_Component:
   - component: {fileID: 421089338725214683}
   - component: {fileID: 9111881135888142197}
-  - component: {fileID: 88929997678880209}
   m_Layer: 0
   m_Name: MergePoint
   m_TagString: Untagged
@@ -625,20 +627,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 4337883692017430413, guid: a009b1d04899afb44b47d28717436377, type: 3}
   playerSpriteRenderer: {fileID: 8385600445489208109}
-  bulletSpriteRenderer: {fileID: 255034797520364599, guid: a009b1d04899afb44b47d28717436377, type: 3}
---- !u!114 &88929997678880209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7172832459746888762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6b9e5502a5ddd4086b8e69680923c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletController: {fileID: 0}
 --- !u!1 &7655400349676034568
 GameObject:
   m_ObjectHideFlags: 0
