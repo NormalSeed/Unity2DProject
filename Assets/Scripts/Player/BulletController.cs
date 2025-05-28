@@ -22,6 +22,7 @@ public class BulletController : MonoBehaviour
         bullet.transform.position = transform.position;
         if (!playerSpriteRenderer.flipX)
         {
+            bullet.bulletSR.flipX = false;
             bullet.Launch(fireDir);
         }
         else
