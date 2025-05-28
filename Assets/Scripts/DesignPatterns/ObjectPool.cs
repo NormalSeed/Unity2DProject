@@ -8,7 +8,7 @@ public class ObjectPool
     private PooledObject prefab;
     private GameObject poolObject;
 
-    public ObjectPool(Transform parent, PooledObject targetPrefab, int initSize) => ;
+    public ObjectPool(Transform parent, PooledObject targetPrefab, int initSize) => Init(parent, targetPrefab, initSize);
 
     private void Init(Transform parent, PooledObject targetPrefab, int initSize)
     {
