@@ -5,48 +5,31 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private IView view;
-    private PlayerMovement movement;
-    private PlayerModel model;
+    public IView view;
+    public PlayerMovement movement;
+    public PlayerModel model;
+    public StateMachine stateMachine;
 
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
-    private bool isOnGround = true;
+    public float inputX;
+    public bool isOnGround = true;
+
+    public readonly int IDLE_HASH = Animator.StringToHash("idle");
+    public readonly int RUN_HASH = Animator.StringToHash("run");
+    public readonly int JUMP_HASH = Animator.StringToHash("jump");
+
 
     private void OnEnable() => SubscribeEvents();
     private void Awake() => Init();
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
-        {
-            movement.PlayerJump(model.JumpPower);
-            isOnGround = false;
-            model.IsJumping.Value = true;
-        }
-        
-        //Test---
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            TakeDamage(1);
-        }
+        inputX = Input.GetAxis("Horizontal");
+        stateMachine.Update();
     }
     private void FixedUpdate() 
     {
-        movement.HorizontalMove(model.MoveSpd);
-        if (movement.inputX > 0)
-        {
-            model.IsRunning.Value = true;
-            spriteRenderer.flipX = false;
-        }
-        else if(movement.inputX < 0)
-        {
-            model.IsRunning.Value = true;
-            spriteRenderer.flipX = true;
-        }
-        else
-        {
-            model.IsRunning.Value = false;
-        }
+        stateMachine.FixedUpdate();
     }
     private void OnDisable() => UnsubscribeEvents();
 
@@ -57,8 +40,20 @@ public class PlayerController : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         model.CurHp.Value = model.MaxHp;
+        StateMachineInit();
 
         isOnGround = true;
+    }
+
+    private void StateMachineInit()
+    {
+        stateMachine = new StateMachine();
+        stateMachine.stateDic.Add(EState.Idle, new Player_Idle(this));
+        stateMachine.stateDic.Add(EState.Run, new Player_Run(this));
+        stateMachine.stateDic.Add(EState.Jump, new Player_Jump(this));
+
+        stateMachine.CurState = stateMachine.stateDic[EState.Idle];
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -66,7 +61,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
-            model.IsJumping.Value = false;
         }
     }
 
@@ -78,13 +72,11 @@ public class PlayerController : MonoBehaviour
 
     public void SubscribeEvents()
     {
-        model.IsRunning.Subscribe(view.PlayRunAnimation);
         model.CurHp.Subscribe(view.UpdateHpUI);
     }
 
     public void UnsubscribeEvents()
     {
-        model.IsRunning.Unsubscribe(view.PlayRunAnimation);
         model.CurHp.Unsubscribe(view.UpdateHpUI);
     }
 }

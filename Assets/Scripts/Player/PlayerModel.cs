@@ -9,7 +9,4 @@ public class PlayerModel : MonoBehaviour
 
     [field: SerializeField] public int MaxHp { get; set; } = 5;
     [field: SerializeField] public ObservableProperty<int> CurHp { get; private set; } = new();
-
-    public ObservableProperty<bool> IsJumping { get; private set; } = new();
-    public ObservableProperty<bool> IsRunning { get; private set; } = new();
 }

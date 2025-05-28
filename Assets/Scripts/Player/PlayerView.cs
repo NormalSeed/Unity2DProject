@@ -16,8 +16,10 @@ public class PlayerView : MonoBehaviour, IView
         animator = GetComponent<Animator>();
     }
 
-    public void PlayRunAnimation(bool value) => animator.SetBool("IsRun", value);
-    public void PlayJumpAnimation(bool value) => animator.SetBool("IsJump", value);
+    public void PlayAnimation(int hash)
+    {
+        animator.Play(hash);
+    }
     public void UpdateHpUI(int value)
     {
         for (int i = 0; i < hp.Length; i++)

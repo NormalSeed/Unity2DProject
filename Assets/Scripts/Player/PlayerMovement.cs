@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private SurfaceEffector2D surfaceEffector;
-    public float inputX;
 
     private void Awake() => Init();
 
@@ -15,10 +14,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void HorizontalMove(float speed)
+    public void HorizontalMove(float inputX, float speed)
     {
-        inputX = Input.GetAxis("Horizontal");
-
         if (surfaceEffector == null)
         {
             rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
