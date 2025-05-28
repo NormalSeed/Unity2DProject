@@ -89,7 +89,8 @@ public class Player_Jump : PlayerState
 
     public override void Enter()
     {
-        controller.view.PlayAnimation(controller.JUMP_HASH);
+        //TODO: 점프 애니메이션 필요
+        //controller.view.PlayAnimation(controller.JUMP_HASH);
         controller.movement.PlayerJump(controller.model.JumpPower);
         controller.isOnGround = false;
     }

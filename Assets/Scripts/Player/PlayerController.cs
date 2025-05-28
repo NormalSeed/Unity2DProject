@@ -14,9 +14,11 @@ public class PlayerController : MonoBehaviour
 
     public float inputX;
     public bool isOnGround = true;
+    public bool isControllActivated = true;
 
     public readonly int IDLE_HASH = Animator.StringToHash("idle");
     public readonly int RUN_HASH = Animator.StringToHash("run");
+    //TODO: 점프 애니메이션 필요
     public readonly int JUMP_HASH = Animator.StringToHash("jump");
 
 
