@@ -76,11 +76,11 @@ public class PlayerController : MonoBehaviour
 
     public void SubscribeEvents()
     {
-        model.CurHp.Subscribe(view.UpdateHpUI);
+        model.CurHp.Subscribe(view.UpdateUI);
     }
 
     public void UnsubscribeEvents()
     {
-        model.CurHp.Unsubscribe(view.UpdateHpUI);
+        model.CurHp.Unsubscribe(view.UpdateUI);
     }
 }
