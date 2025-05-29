@@ -18,26 +18,8 @@ public class PlayerState : BaseState
     {
         if (Input.GetKeyDown(KeyCode.Space) && controller.isOnGround)
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Jump]);
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            controller.skillKey = KeyCode.Q;
-            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.UseSkill]);
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            controller.skillKey = KeyCode.W;
-            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.UseSkill]);
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            controller.skillKey = KeyCode.E;
-            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.UseSkill]);
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            controller.skillKey = KeyCode.R;
-            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.UseSkill]);
-        }
+        if (!controller.isControllActivated)
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.CantControll]);
     }
     public override void Exit()
     {
@@ -117,6 +99,9 @@ public class Player_Jump : PlayerState
 
     public override void Update()
     {
+        if (!controller.isControllActivated)
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.CantControll]);
+
         if (controller.isOnGround)
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
 
@@ -135,43 +120,23 @@ public class Player_Jump : PlayerState
     }
 }
 
-public class Player_UseSkill : PlayerState
+public class Player_CantControll : PlayerState
 {
-    public Player_UseSkill(PlayerController _controller) : base(_controller)
+    public Player_CantControll(PlayerController _controller) : base(_controller)
     {
         HasPhysics = false;
     }
 
-    private float generalSkillCooltime;
-
     public override void Enter()
     {
-        PlayerSkill usedSkill = controller.skillSet.SelectSkill(controller.skillKey);
-        usedSkill.CanUseSkill();
-        generalSkillCooltime = controller.generalSkillCool;
+        // TODO: E스킬 애니메이션 필요함.
     }
+
     public override void Update()
     {
-        base.Update();
-
-        generalSkillCooltime -= Time.deltaTime;
-
-        if (generalSkillCooltime <= 0)
+        if (controller.isControllActivated)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
         }
-
-        if (controller.inputX > 0)
-        {
-            controller.spriteRenderer.flipX = false;
-        }
-        else if (controller.inputX < 0)
-        {
-            controller.spriteRenderer.flipX = true;
-        }
-    }
-    public override void Exit()
-    {
-
     }
 }

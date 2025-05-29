@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     public PlayerMovement movement;
     public PlayerModel model;
     public StateMachine stateMachine;
-    public SkillSet skillSet;
-    public KeyCode skillKey;
 
     public SpriteRenderer spriteRenderer;
 
@@ -46,7 +44,6 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         model.CurHp.Value = model.MaxHp;
         StateMachineInit();
-        SkillSetInit();
 
         isOnGround = true;
     }
@@ -57,16 +54,10 @@ public class PlayerController : MonoBehaviour
         stateMachine.stateDic.Add(EState.Idle, new Player_Idle(this));
         stateMachine.stateDic.Add(EState.Run, new Player_Run(this));
         stateMachine.stateDic.Add(EState.Jump, new Player_Jump(this));
-        stateMachine.stateDic.Add(EState.UseSkill, new Player_UseSkill(this));
+        stateMachine.stateDic.Add(EState.CantControll, new Player_CantControll(this));
 
         stateMachine.CurState = stateMachine.stateDic[EState.Idle];
 
-    }
-
-    private void SkillSetInit()
-    {
-        skillSet = GetComponent<SkillSet>();
-        skillSet.selectedSkill = skillSet.skillDic[eSkill.Q];
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
