@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : PooledObject
@@ -9,6 +10,7 @@ public class Bullet : PooledObject
     private float holdingTime = 0.5f;
     private float restTime;
     public SpriteRenderer bulletSR;
+    private int damage = 1;
 
     private void Awake() => Init();
 
@@ -32,6 +34,19 @@ public class Bullet : PooledObject
         if (restTime <= 0)
         {
             ReturnPool();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+                ReturnPool();
+            }
         }
     }
 }
