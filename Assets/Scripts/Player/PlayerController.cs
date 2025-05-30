@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public IView view;
+    public PlayerView view;
     public PlayerMovement movement;
     public PlayerModel model;
     public StateMachine stateMachine;
@@ -76,11 +76,11 @@ public class PlayerController : MonoBehaviour
 
     public void SubscribeEvents()
     {
-        model.CurHp.Subscribe(view.UpdateUI);
+        model.CurHp.Subscribe(view.UpdateHPUI);
     }
 
     public void UnsubscribeEvents()
     {
-        model.CurHp.Unsubscribe(view.UpdateUI);
+        model.CurHp.Unsubscribe(view.UpdateHPUI);
     }
 }

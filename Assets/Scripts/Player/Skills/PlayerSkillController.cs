@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlayerSkillController : MonoBehaviour
 {
     private PlayerController controller;
+    private SkillView view;
+
     public bool canUseSkill;
     private Coroutine coGeneralSkillCool;
 
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
+        view = GetComponent<SkillView>();
         canUseSkill = true;
     }
     private void Update()
@@ -42,6 +45,8 @@ public class PlayerSkillController : MonoBehaviour
                 coGeneralSkillCool = StartCoroutine(CoGeneralSkillCool());
             }
         }
+
+        view.UpdateUI();
     }
 
     IEnumerator CoGeneralSkillCool()

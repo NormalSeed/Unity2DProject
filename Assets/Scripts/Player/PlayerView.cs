@@ -20,10 +20,6 @@ public class PlayerView : MonoBehaviour, IView
     {
         animator.Play(hash);
     }
-    public void UpdateUI(int value)
-    {
-        UpdateHPUI(value);
-    }
 
     public void UpdateHPUI(int value)
     {

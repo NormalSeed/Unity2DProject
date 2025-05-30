@@ -5,8 +5,8 @@ using UnityEngine;
 public class Skill : MonoBehaviour
 {
 
-    [SerializeField] protected float cooldown;
-    protected float cooldownTimer;
+    [SerializeField] public float cooldown;
+    public float cooldownTimer;
 
     protected virtual void Awake() => Init();
 
@@ -16,7 +16,10 @@ public class Skill : MonoBehaviour
     }
     protected virtual void Update()
     {
-        cooldownTimer -= Time.deltaTime;
+        if(cooldownTimer >= 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
     }
 
     public virtual bool CanUseSkill()
