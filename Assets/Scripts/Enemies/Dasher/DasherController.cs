@@ -11,7 +11,12 @@ public class DasherController : Enemy
     public SpriteRenderer spriteRenderer;
     public int nextMove;
     public bool isFlip;
+    public bool isDetect;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float detectRadius;
+    [SerializeField] private LayerMask playerLayer;
+    public Collider2D detectedTarget;
+    public Transform targetTransform;
 
     public readonly int IDLE_HASH = Animator.StringToHash("DasherIdle");
     public readonly int RUN_HASH = Animator.StringToHash("DasherRun");
@@ -32,7 +37,7 @@ public class DasherController : Enemy
         isFlip = spriteRenderer.flipX;
 
         Patrol();
-
+        DetectPlayer();
         stateMachine.Update();
     }
 
@@ -59,6 +64,7 @@ public class DasherController : Enemy
         stateMachine = new StateMachine();
         stateMachine.stateDic.Add(EState.Idle, new Dasher_Idle(this));
         stateMachine.stateDic.Add(EState.Run, new Dasher_Run(this));
+        stateMachine.stateDic.Add(EState.Detect, new Dasher_Detect(this));
         //stateMachine.stateDic.Add(EState.Dash, new Dasher_Attack(this));
 
         stateMachine.CurState = stateMachine.stateDic[EState.Idle];
@@ -87,5 +93,31 @@ public class DasherController : Enemy
     {
         if (model.CurHp.Value > 0) model.CurHp.Value -= damage;
         if (model.CurHp.Value <= 0) gameObject.SetActive(false);
+    }
+
+    public override void DetectPlayer()
+    {
+        Collider2D collider = Physics2D.OverlapCircle(transform.position, detectRadius, playerLayer);
+        
+        if (collider != null && collider.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Å½Áö ¼º°ø");
+            CancelInvoke();
+            detectedTarget = collider;
+            isDetect = true;
+            targetTransform = collider.transform;
+        }
+        else if (detectedTarget != null)
+        {
+            detectedTarget = null;
+            // Invoke("MoveIntelligence", 0);
+            isDetect = false;
+            targetTransform = null;
+        }
+    }
+
+    public override void AttackSkill()
+    {
+        
     }
 }

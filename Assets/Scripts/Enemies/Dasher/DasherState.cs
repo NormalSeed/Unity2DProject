@@ -17,7 +17,10 @@ public class DasherState : BaseState
 
     public override void Update()
     {
-        
+        if (controller.isDetect)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Detect]);
+        }
     }
 
     public override void Exit()
@@ -76,5 +79,30 @@ public class Dasher_Run : DasherState
     public override void FixedUpdate()
     {
         controller.movement.HorizontalMove(controller.isFlip, controller.model.MoveSpd);
+    }
+}
+
+public class Dasher_Detect : DasherState
+{
+    public Dasher_Detect(DasherController _controller) : base(_controller)
+    {
+        HasPhysics = true;
+    }
+    public override void Enter()
+    {
+        controller.view.PlayAnimation(controller.RUN_HASH);
+    }
+
+    public override void Update()
+    {
+        if (!controller.isDetect)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        controller.movement.FollowPlayer(controller.targetTransform, controller.model.MoveSpd);
     }
 }

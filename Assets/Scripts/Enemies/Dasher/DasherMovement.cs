@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class DasherMovement : MonoBehaviour
@@ -7,6 +8,7 @@ public class DasherMovement : MonoBehaviour
     public Rigidbody2D rb;
     private SurfaceEffector2D surfaceEffector;
     public Vector2 patrolVec;
+    private float stopDistance = 1;
 
     private void Awake() => Init();
     private void Init()
@@ -28,8 +30,6 @@ public class DasherMovement : MonoBehaviour
         }
     }
 
-    
-
     public Vector2 GetPatrolVec(bool isFlip)
     {
 
@@ -42,5 +42,22 @@ public class DasherMovement : MonoBehaviour
             patrolVec = Vector2.right;
         }
         return patrolVec;
+    }
+
+    public void FollowPlayer(Transform target, float speed)
+    {
+        if (target != null)
+        {
+            float distance = Vector2.Distance(transform.position, target.position);
+            if (distance > stopDistance)
+            {
+                float direction = Mathf.Sign(target.position.x - transform.position.x);
+                rb.velocity = new Vector2(direction * speed, rb.velocity.y);
+            }
+            else
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+        }
     }
 }

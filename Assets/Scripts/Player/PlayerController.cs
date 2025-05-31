@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("¶¥°ú Ãæµ¹ÇÔ");
             isOnGround = true;
         }
     }

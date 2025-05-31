@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5920309114430140051}
   - component: {fileID: 5092954440747903539}
   - component: {fileID: 1259492458367078461}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Heart4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 923140396198641046}
   - component: {fileID: 8747144374638550544}
   - component: {fileID: 1181966991570561056}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Heart2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 1365368537912272231}
   - component: {fileID: 4267411523664042130}
   - component: {fileID: 5393427379818091503}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MoveSpd>k__BackingField: 5
-  <JumpPower>k__BackingField: 5
+  <JumpPower>k__BackingField: 20
   <MaxHp>k__BackingField: 5
 --- !u!114 &2359732464240456782
 MonoBehaviour:
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 7321617121259938433}
   - component: {fileID: 927193928993050291}
   - component: {fileID: 9149777267578266950}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Heart3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 6174100742271994981}
   - component: {fileID: 4329340435771456249}
   - component: {fileID: 7067876983755699880}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HPUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -621,7 +621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 421089338725214683}
   - component: {fileID: 9111881135888142197}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MergePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 1298710563139885349}
   - component: {fileID: 6281603292313598750}
   - component: {fileID: 535304676240928829}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Heart5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +740,7 @@ GameObject:
   - component: {fileID: 5626409614438954343}
   - component: {fileID: 2648074842732211350}
   - component: {fileID: 8497531112007752337}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Heart1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
