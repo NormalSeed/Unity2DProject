@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public float generalSkillCool = 0.5f;
     public bool isControllActivated = true;
 
+    private Coroutine coReactivate;
+
     public readonly int IDLE_HASH = Animator.StringToHash("idle");
     public readonly int RUN_HASH = Animator.StringToHash("run");
     // TODO: 점프 애니메이션 필요
@@ -66,6 +68,18 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
         }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            isControllActivated = false;
+            coReactivate = StartCoroutine(CoReactivate());
+            TakeDamage(1);
+        }
+    }
+
+    private IEnumerator CoReactivate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isControllActivated = true;
     }
 
     public void TakeDamage(int damage)

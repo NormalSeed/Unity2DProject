@@ -544,7 +544,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_LocalScale: {x: 50, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -791,6 +791,10 @@ PrefabInstance:
     - target: {fileID: 2611089915001054899, guid: 806f8cfff9805bd4bb8b391acc04bed5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938456056802348962, guid: 806f8cfff9805bd4bb8b391acc04bed5, type: 3}
+      propertyPath: attackRange
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4075502092456325831, guid: 806f8cfff9805bd4bb8b391acc04bed5, type: 3}
       propertyPath: <MoveSpd>k__BackingField

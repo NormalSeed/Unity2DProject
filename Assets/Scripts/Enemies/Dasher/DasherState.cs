@@ -140,7 +140,7 @@ public class Dasher_Attack : DasherState
 {
     public Dasher_Attack(DasherController _controller) : base(_controller)
     {
-        HasPhysics = true;
+        HasPhysics = false;
     }
 
     private float attackTime;
@@ -150,6 +150,7 @@ public class Dasher_Attack : DasherState
         controller.view.PlayAnimation(controller.ATTACK_HASH);
         controller.movement.attackDir = controller.movement.followDir;
         attackTime = 1;
+        controller.AttackSkill();
     }
 
     public override void Update()
@@ -159,11 +160,6 @@ public class Dasher_Attack : DasherState
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
         }
-    }
-
-    public override void FixedUpdate()
-    {
-        controller.AttackSkill();
     }
 
     public override void Exit()

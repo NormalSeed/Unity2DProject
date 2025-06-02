@@ -73,6 +73,29 @@ public class DasherController : Enemy
         stateMachine.CurState = stateMachine.stateDic[EState.Idle];
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isAttack && collision.gameObject.CompareTag("Player"))
+        {
+            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (rb == null) return;
+            rb.velocity = Vector2.zero;
+
+            rb.AddForce(new Vector2(movement.attackDir, 0) * attackSpeed * 4f, ForceMode2D.Impulse);
+        }
+        else if (!isAttack && collision.gameObject.CompareTag("Player"))
+        {
+            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (rb == null) return;
+
+            Vector2 normal = collision.contacts[0].normal;
+            Vector2 reflectedDir = Vector2.Reflect(rb.velocity.normalized, normal);
+            rb.velocity = Vector2.zero;
+
+            rb.AddForce(reflectedDir * 10f, ForceMode2D.Impulse);
+        }
+    }
+
     private void MovingIntelligence()
     {
         nextMove = Random.Range(-1, 2);
@@ -135,7 +158,7 @@ public class DasherController : Enemy
 
     public override void AttackSkill()
     {
-        movement.rb.velocity = new Vector2(movement.attackDir * attackSpeed, movement.rb.velocity.y);
+        movement.rb.AddForce(new Vector2(movement.attackDir * attackSpeed * 1.5f, movement.rb.velocity.y), ForceMode2D.Impulse);
         isAttack = true;
     }
 }

@@ -54,9 +54,9 @@ public class DasherMovement : MonoBehaviour
         if (target != null)
         {
             distance = Vector2.Distance(transform.position, target.position);
+            followDir = (target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x); ;
             if (distance > attackRange)
             {
-                followDir = (target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x); ;
                 rb.velocity = new Vector2(followDir * speed, rb.velocity.y);
             }
         }
