@@ -10,6 +10,10 @@ public class SkillManager : Singleton<SkillManager>
     public PlayerW playerW;
     public PlayerE playerE;
     public PlayerR playerR;
+
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
+    [SerializeField] public GameObject rSkillTerritory;
     private void Awake()
     {
         Init();
@@ -22,6 +26,9 @@ public class SkillManager : Singleton<SkillManager>
         playerW = GetComponent<PlayerW>();
         playerE = GetComponent<PlayerE>();
         playerR = GetComponent<PlayerR>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
 
         IsUsingSkill = false;
     }

@@ -177,6 +177,7 @@ public class DasherController : Enemy
     public void InTerror()
     {
         Debug.Log("공포 발생");
+        TakeDamage(3);
         isTerrorized = true;
         spriteRenderer.flipX = !spriteRenderer.flipX;
         CancelInvoke();

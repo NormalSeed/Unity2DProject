@@ -67,6 +67,7 @@ public class DasherMovement : MonoBehaviour
         if (target != null)
         {
             float terrorDir = -(target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x);
+            rb.velocity = Vector2.zero;
             rb.velocity = new Vector2(terrorDir * speed / 2, rb.velocity.y);
         }
     }

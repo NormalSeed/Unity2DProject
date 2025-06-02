@@ -163,9 +163,15 @@ public class Dasher_Attack : DasherState
     public override void Update()
     {
         attackTime -= Time.deltaTime;
+
         if (attackTime < 0)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
+        }
+
+        if (controller.isTerrorized)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Terrorized]);
         }
     }
 

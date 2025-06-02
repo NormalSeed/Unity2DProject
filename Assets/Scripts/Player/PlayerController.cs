@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public float inputX;
     public bool isOnGround = true;
     public float generalSkillCool = 0.5f;
+    public bool isDamagable = true;
+    public Coroutine coDamagable;
     public bool isControllActivated = true;
 
     private Coroutine coReactivate;
@@ -85,7 +87,15 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         // TODO: 공격을 받으면 model의 CurHp가 감소하게 하고 UI의 HP 갯수를 하나 줄여야 함
-        if (model.CurHp.Value > 0) model.CurHp.Value -= damage;
+        if (model.CurHp.Value > 0 && isDamagable) model.CurHp.Value -= damage;
+        coDamagable = StartCoroutine(CoDamagable());
+    }
+
+    public IEnumerator CoDamagable()
+    {
+        isDamagable = false;
+        yield return new WaitForSeconds(1f);
+        isDamagable = true;
     }
 
     public void SubscribeEvents()
