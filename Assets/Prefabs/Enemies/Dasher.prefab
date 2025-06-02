@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c0da965008d28c4890a9c002d65b0d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MoveSpd>k__BackingField: 3.5
+  <MoveSpd>k__BackingField: 2
   <MaxHp>k__BackingField: 2
 --- !u!114 &2325031123110084545
 MonoBehaviour:
@@ -206,9 +206,20 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   nextMove: 0
   isFlip: 0
+  isDetect: 0
+  isAttack: 0
+  isRight: 0
+  isTerrorized: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  detectRadius: 5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  detectedTarget: {fileID: 0}
+  targetTransform: {fileID: 0}
+  attackSpeed: 5
 --- !u!114 &2938456056802348962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +234,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   patrolVec: {x: 0, y: 0}
+  detectRange: 5
+  distance: 0
+  followDir: 0
+  attackDir: 0
+  attackRange: 3
 --- !u!114 &923900569516582592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,3 +251,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519870276de9be747963a481b53aa658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
