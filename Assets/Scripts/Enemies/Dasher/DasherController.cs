@@ -97,20 +97,34 @@ public class DasherController : Enemy
 
     public override void DetectPlayer()
     {
-        Collider2D collider = Physics2D.OverlapCircle(transform.position, detectRadius, playerLayer);
+        Vector2 rayOriginRight = transform.position + new Vector3(1, 1);
+        Debug.DrawRay(rayOriginRight, Vector2.right * 5f, Color.red);
+        Vector2 rayOriginLeft = transform.position + new Vector3(-1, 1);
+        Debug.DrawRay(rayOriginLeft, -Vector2.right * 5f, Color.yellow);
+        RaycastHit2D hitRight = Physics2D.Raycast(rayOriginRight, Vector2.right, 5f, playerLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(rayOriginLeft, -Vector2.right, 5f, playerLayer);
         
-        if (collider != null && collider.gameObject.CompareTag("Player"))
+        if (hitRight.collider != null)
         {
             Debug.Log("Å½Áö ¼º°ø");
             CancelInvoke();
-            detectedTarget = collider;
+            detectedTarget = hitRight.collider;
             isDetect = true;
-            targetTransform = collider.transform;
+            targetTransform = hitRight.transform;
+            spriteRenderer.flipX = false;
+        }
+        else if (hitLeft.collider != null)
+        {
+            Debug.Log("Å½Áö ¼º°ø");
+            CancelInvoke();
+            detectedTarget = hitLeft.collider;
+            isDetect = true;
+            targetTransform = hitLeft.transform;
+            spriteRenderer.flipX = true;
         }
         else if (detectedTarget != null)
         {
             detectedTarget = null;
-            // Invoke("MoveIntelligence", 0);
             isDetect = false;
             targetTransform = null;
         }

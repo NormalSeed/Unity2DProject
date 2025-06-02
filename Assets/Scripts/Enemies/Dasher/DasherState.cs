@@ -105,4 +105,9 @@ public class Dasher_Detect : DasherState
     {
         controller.movement.FollowPlayer(controller.targetTransform, controller.model.MoveSpd);
     }
+
+    public override void Exit()
+    {
+        controller.Invoke("MovingIntelligence", 0f);
+    }
 }

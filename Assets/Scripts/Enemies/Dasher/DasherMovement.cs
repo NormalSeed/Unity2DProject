@@ -8,7 +8,7 @@ public class DasherMovement : MonoBehaviour
     public Rigidbody2D rb;
     private SurfaceEffector2D surfaceEffector;
     public Vector2 patrolVec;
-    private float stopDistance = 1;
+    private float stopDistance = 2;
 
     private void Awake() => Init();
     private void Init()
