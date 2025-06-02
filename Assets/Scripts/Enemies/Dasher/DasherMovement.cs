@@ -54,11 +54,20 @@ public class DasherMovement : MonoBehaviour
         if (target != null)
         {
             distance = Vector2.Distance(transform.position, target.position);
-            followDir = (target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x); ;
+            followDir = (target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x);
             if (distance > attackRange)
             {
                 rb.velocity = new Vector2(followDir * speed, rb.velocity.y);
             }
+        }
+    }
+
+    public void TerrorMovement(Transform target, float speed)
+    {
+        if (target != null)
+        {
+            float terrorDir = -(target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x);
+            rb.velocity = new Vector2(terrorDir * speed / 2, rb.velocity.y);
         }
     }
 }

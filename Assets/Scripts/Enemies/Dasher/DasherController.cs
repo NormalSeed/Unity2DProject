@@ -14,6 +14,7 @@ public class DasherController : Enemy
     public bool isDetect;
     public bool isAttack;
     public bool isRight;
+    public bool isTerrorized;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float detectRadius;
     [SerializeField] private LayerMask playerLayer;
@@ -56,6 +57,7 @@ public class DasherController : Enemy
         movement = GetComponent<DasherMovement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         model.CurHp.Value = model.MaxHp;
+        isTerrorized = false;
 
         StateMachineInit();
 
@@ -69,6 +71,7 @@ public class DasherController : Enemy
         stateMachine.stateDic.Add(EState.Run, new Dasher_Run(this));
         stateMachine.stateDic.Add(EState.Detect, new Dasher_Detect(this));
         stateMachine.stateDic.Add(EState.Attack, new Dasher_Attack(this));
+        stateMachine.stateDic.Add(EState.Terrorized, new Dasher_Terrorized(this));
 
         stateMachine.CurState = stateMachine.stateDic[EState.Idle];
     }
@@ -93,6 +96,15 @@ public class DasherController : Enemy
             rb.velocity = Vector2.zero;
 
             rb.AddForce(reflectedDir * 10f, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("TerrorTrigger"))
+        {
+            Debug.Log("공포 발생");
+            InTerror();
         }
     }
 
@@ -160,5 +172,13 @@ public class DasherController : Enemy
     {
         movement.rb.AddForce(new Vector2(movement.attackDir * attackSpeed * 1.5f, movement.rb.velocity.y), ForceMode2D.Impulse);
         isAttack = true;
+    }
+
+    public void InTerror()
+    {
+        Debug.Log("공포 발생");
+        isTerrorized = true;
+        spriteRenderer.flipX = !spriteRenderer.flipX;
+        CancelInvoke();
     }
 }

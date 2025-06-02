@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DasherView : MonoBehaviour, IView
 {
-    private Animator animator;
+    public Animator animator;
 
     private void Awake() => Init();
 

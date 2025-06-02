@@ -17,7 +17,12 @@ public class DasherState : BaseState
 
     public override void Update()
     {
-        if (controller.isDetect)
+        if (controller.isTerrorized)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Terrorized]);
+        }
+
+        if (controller.isDetect && !controller.isTerrorized)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Detect]);
         }
@@ -103,6 +108,7 @@ public class Dasher_Detect : DasherState
 
     public override void Update()
     {
+        base.Update();
         if (!controller.isDetect)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
@@ -110,7 +116,8 @@ public class Dasher_Detect : DasherState
 
         if (controller.isDetect && 
             controller.movement.distance <= controller.movement.attackRange &&
-            !controller.isAttack)
+            !controller.isAttack &&
+            !controller.isTerrorized)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Attack]);
         }
@@ -167,6 +174,44 @@ public class Dasher_Attack : DasherState
         controller.isAttack = false;
         controller.movement.attackDir = 0;
         controller.movement.rb.velocity = new Vector2(0, controller.movement.rb.velocity.y);
+        controller.Invoke("MovingIntelligence", 0);
+    }
+}
+
+public class Dasher_Terrorized : DasherState
+{
+    public Dasher_Terrorized(DasherController _controller) : base(_controller)
+    {
+        HasPhysics = true;
+    }
+
+    private float duration;
+
+    public override void Enter()
+    {
+        duration = 1.5f;
+        controller.view.animator.speed = 0.5f;
+        controller.view.PlayAnimation(controller.RUN_HASH);
+    }
+
+    public override void Update()
+    {
+        duration -= Time.deltaTime;
+        if (duration < 0)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        controller.movement.TerrorMovement(controller.targetTransform, controller.model.MoveSpd);
+    }
+
+    public override void Exit()
+    {
+        controller.view.animator.speed = 1;
+        controller.isTerrorized = false;
         controller.Invoke("MovingIntelligence", 0);
     }
 }
