@@ -8,12 +8,17 @@ public class DasherMovement : MonoBehaviour
     public Rigidbody2D rb;
     private SurfaceEffector2D surfaceEffector;
     public Vector2 patrolVec;
-    private float stopDistance = 2;
+    public float detectRange = 5f;
+    public float distance;
+    public float followDir;
+    public float attackDir;
+    public float attackRange = 2f;
 
     private void Awake() => Init();
     private void Init()
     {
         rb= GetComponent<Rigidbody2D>();
+        distance = detectRange;
     }
 
     public void HorizontalMove(bool isFlip, float speed)
@@ -48,15 +53,11 @@ public class DasherMovement : MonoBehaviour
     {
         if (target != null)
         {
-            float distance = Vector2.Distance(transform.position, target.position);
-            if (distance > stopDistance)
+            distance = Vector2.Distance(transform.position, target.position);
+            if (distance > attackRange)
             {
-                float direction = Mathf.Sign(target.position.x - transform.position.x);
-                rb.velocity = new Vector2(direction * speed, rb.velocity.y);
-            }
-            else
-            {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                followDir = (target.position.x - transform.position.x) / Mathf.Abs(target.position.x - transform.position.x); ;
+                rb.velocity = new Vector2(followDir * speed, rb.velocity.y);
             }
         }
     }

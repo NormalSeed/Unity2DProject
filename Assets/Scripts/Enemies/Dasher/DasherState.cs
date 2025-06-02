@@ -78,6 +78,14 @@ public class Dasher_Run : DasherState
 
     public override void FixedUpdate()
     {
+        if (controller.isRight)
+        {
+            controller.spriteRenderer.flipX = false;
+        }
+        else
+        {
+            controller.spriteRenderer.flipX = true;
+        }
         controller.movement.HorizontalMove(controller.isFlip, controller.model.MoveSpd);
     }
 }
@@ -99,15 +107,70 @@ public class Dasher_Detect : DasherState
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
         }
+
+        if (controller.isDetect && 
+            controller.movement.distance <= controller.movement.attackRange &&
+            !controller.isAttack)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Attack]);
+        }
     }
 
     public override void FixedUpdate()
     {
+        if (controller.isRight)
+        {
+            controller.spriteRenderer.flipX = false;
+        }
+        else
+        {
+            controller.spriteRenderer.flipX = true;
+        }
         controller.movement.FollowPlayer(controller.targetTransform, controller.model.MoveSpd);
     }
 
     public override void Exit()
     {
-        controller.Invoke("MovingIntelligence", 0f);
+        controller.movement.distance = controller.movement.detectRange;
+        controller.Invoke("MovingIntelligence", 0);
+    }
+}
+
+public class Dasher_Attack : DasherState
+{
+    public Dasher_Attack(DasherController _controller) : base(_controller)
+    {
+        HasPhysics = true;
+    }
+
+    private float attackTime;
+
+    public override void Enter()
+    {
+        controller.view.PlayAnimation(controller.ATTACK_HASH);
+        controller.movement.attackDir = controller.movement.followDir;
+        attackTime = 1;
+    }
+
+    public override void Update()
+    {
+        attackTime -= Time.deltaTime;
+        if (attackTime < 0)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
+        }
+    }
+
+    public override void FixedUpdate()
+    {
+        controller.AttackSkill();
+    }
+
+    public override void Exit()
+    {
+        controller.isAttack = false;
+        controller.movement.attackDir = 0;
+        controller.movement.rb.velocity = new Vector2(0, controller.movement.rb.velocity.y);
+        controller.Invoke("MovingIntelligence", 0);
     }
 }

@@ -12,11 +12,14 @@ public class DasherController : Enemy
     public int nextMove;
     public bool isFlip;
     public bool isDetect;
+    public bool isAttack;
+    public bool isRight;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float detectRadius;
     [SerializeField] private LayerMask playerLayer;
     public Collider2D detectedTarget;
     public Transform targetTransform;
+    public float attackSpeed = 5f;
 
     public readonly int IDLE_HASH = Animator.StringToHash("DasherIdle");
     public readonly int RUN_HASH = Animator.StringToHash("DasherRun");
@@ -28,11 +31,11 @@ public class DasherController : Enemy
     {
         if (nextMove == -1)
         {
-            spriteRenderer.flipX = true;
+            isRight = false;
         }
         else if (nextMove == 1)
         {
-            spriteRenderer.flipX = false;
+            isRight = true;
         }
         isFlip = spriteRenderer.flipX;
 
@@ -65,7 +68,7 @@ public class DasherController : Enemy
         stateMachine.stateDic.Add(EState.Idle, new Dasher_Idle(this));
         stateMachine.stateDic.Add(EState.Run, new Dasher_Run(this));
         stateMachine.stateDic.Add(EState.Detect, new Dasher_Detect(this));
-        //stateMachine.stateDic.Add(EState.Dash, new Dasher_Attack(this));
+        stateMachine.stateDic.Add(EState.Attack, new Dasher_Attack(this));
 
         stateMachine.CurState = stateMachine.stateDic[EState.Idle];
     }
@@ -98,11 +101,11 @@ public class DasherController : Enemy
     public override void DetectPlayer()
     {
         Vector2 rayOriginRight = transform.position + new Vector3(1, 1);
-        Debug.DrawRay(rayOriginRight, Vector2.right * 5f, Color.red);
+        Debug.DrawRay(rayOriginRight, Vector2.right * movement.detectRange, Color.red);
         Vector2 rayOriginLeft = transform.position + new Vector3(-1, 1);
-        Debug.DrawRay(rayOriginLeft, -Vector2.right * 5f, Color.yellow);
-        RaycastHit2D hitRight = Physics2D.Raycast(rayOriginRight, Vector2.right, 5f, playerLayer);
-        RaycastHit2D hitLeft = Physics2D.Raycast(rayOriginLeft, -Vector2.right, 5f, playerLayer);
+        Debug.DrawRay(rayOriginLeft, -Vector2.right * movement.detectRange, Color.yellow);
+        RaycastHit2D hitRight = Physics2D.Raycast(rayOriginRight, Vector2.right, movement.detectRange, playerLayer);
+        RaycastHit2D hitLeft = Physics2D.Raycast(rayOriginLeft, -Vector2.right, movement.detectRange, playerLayer);
         
         if (hitRight.collider != null)
         {
@@ -111,7 +114,7 @@ public class DasherController : Enemy
             detectedTarget = hitRight.collider;
             isDetect = true;
             targetTransform = hitRight.transform;
-            spriteRenderer.flipX = false;
+            isRight = true;
         }
         else if (hitLeft.collider != null)
         {
@@ -120,9 +123,9 @@ public class DasherController : Enemy
             detectedTarget = hitLeft.collider;
             isDetect = true;
             targetTransform = hitLeft.transform;
-            spriteRenderer.flipX = true;
+            isRight = false;
         }
-        else if (detectedTarget != null)
+        else if (hitRight.collider == null && hitLeft.collider == null && detectedTarget != null)
         {
             detectedTarget = null;
             isDetect = false;
@@ -132,6 +135,7 @@ public class DasherController : Enemy
 
     public override void AttackSkill()
     {
-        
+        movement.rb.velocity = new Vector2(movement.attackDir * attackSpeed, movement.rb.velocity.y);
+        isAttack = true;
     }
 }
