@@ -119,10 +119,13 @@ public abstract class Enemy : MonoBehaviour
         Debug.DrawRay(rayOriginRight, Vector2.right * movement.detectRange, Color.red);
         Vector2 rayOriginLeft = transform.position + new Vector3(-1, 1);
         Debug.DrawRay(rayOriginLeft, -Vector2.right * movement.detectRange, Color.yellow);
-        RaycastHit2D hitRight = Physics2D.Raycast(rayOriginRight, Vector2.right, movement.detectRange, playerLayer);
-        RaycastHit2D hitLeft = Physics2D.Raycast(rayOriginLeft, -Vector2.right, movement.detectRange, playerLayer);
 
-        if (hitRight.collider != null)
+        int layerMask = LayerMask.GetMask("Player", "Ground");
+
+        RaycastHit2D hitRight = Physics2D.Raycast(rayOriginRight, Vector2.right, movement.detectRange, layerMask);
+        RaycastHit2D hitLeft = Physics2D.Raycast(rayOriginLeft, -Vector2.right, movement.detectRange, layerMask);
+
+        if (hitRight.collider != null && hitRight.collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("Å½Áö ¼º°ø");
             CancelInvoke();
@@ -131,7 +134,7 @@ public abstract class Enemy : MonoBehaviour
             targetTransform = hitRight.transform;
             isRight = true;
         }
-        else if (hitLeft.collider != null)
+        else if (hitLeft.collider != null && hitLeft.collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("Å½Áö ¼º°ø");
             CancelInvoke();

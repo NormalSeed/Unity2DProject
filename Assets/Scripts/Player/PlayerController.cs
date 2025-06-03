@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngineInternal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,6 +38,18 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate() 
     {
         stateMachine.FixedUpdate();
+        if (movement.rb.velocity.y < 0)
+        {
+            Debug.DrawRay(movement.rb.position, Vector3.down, Color.blue);
+            RaycastHit2D hit = Physics2D.Raycast(movement.rb.position, Vector3.down, 1, LayerMask.GetMask("Ground"));
+            if (hit.collider != null)
+            {
+                if (hit.distance < 0.5f)
+                {
+                    isOnGround = true;
+                }
+            }
+        }
     }
     private void OnDisable() => UnsubscribeEvents();
 
@@ -66,18 +79,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            foreach(ContactPoint2D contact in collision.contacts)
-            {
-                if (contact.normal.y > 0.5f)
-                {
-                    isOnGround = true;
-                    break;
-                }
-            }
-        }
-        else if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             isControllActivated = false;
             coReactivate = StartCoroutine(CoReactivate());

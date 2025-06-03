@@ -48,5 +48,9 @@ public class Bullet : PooledObject
                 ReturnPool();
             }
         }
+        else
+        {
+            ReturnPool();
+        }
     }
 }
