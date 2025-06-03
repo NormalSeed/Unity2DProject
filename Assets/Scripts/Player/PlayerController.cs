@@ -68,7 +68,14 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isOnGround = true;
+            foreach(ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    isOnGround = true;
+                    break;
+                }
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
