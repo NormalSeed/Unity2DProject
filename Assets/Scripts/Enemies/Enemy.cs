@@ -10,13 +10,13 @@ public abstract class Enemy : MonoBehaviour
     public StateMachine stateMachine;
     public SpriteRenderer spriteRenderer;
     public int nextMove;
+    public float movingLatency;
     public bool isFlip;
     public bool isDetect;
     public bool isAttack;
     public bool isRight;
     public bool isTerrorized;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float detectRadius;
     [SerializeField] private LayerMask playerLayer;
     public Collider2D detectedTarget;
     public Transform targetTransform;
@@ -57,22 +57,17 @@ public abstract class Enemy : MonoBehaviour
 
         StateMachineInit();
 
-        Invoke("MovingIntelligence", 0.1f);
+        if (!IsInvoking("MovingIntelligence"))
+        {
+            this.Invoke(nameof(MovingIntelligence), 0.1f);
+        }
     }
 
     protected abstract void StateMachineInit();
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isAttack && collision.gameObject.CompareTag("Player"))
-        {
-            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (rb == null) return;
-            rb.velocity = Vector2.zero;
-
-            rb.AddForce(new Vector2(movement.attackDir, 0) * attackSpeed * 4f, ForceMode2D.Impulse);
-        }
-        else if (!isAttack && collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             if (rb == null) return;
@@ -94,11 +89,13 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void MovingIntelligence()
+    protected virtual void MovingIntelligence()
     {
+        this.CancelInvoke("MovingIntelligence");
+        Debug.Log($"Invoke 실행됨 - 호출된 위치: {GetType().Name}");
         nextMove = Random.Range(-1, 2);
-        float time = Random.Range(2f, 4f);
-        Invoke("MovingIntelligence", time);
+        movingLatency = Random.Range(2f, 4f);
+        this.Invoke(nameof(MovingIntelligence), movingLatency);
     }
 
     public void Patrol()
@@ -108,8 +105,8 @@ public abstract class Enemy : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, 2f, groundLayer);
         if (hit.collider == null) // 앞에 Ground가 없으면
         {
-            CancelInvoke();
-            Invoke("MovingIntelligence", 0);
+            this.CancelInvoke("MovingIntelligence");
+            this.Invoke(nameof(MovingIntelligence), 0);
         }
     }
 
@@ -128,7 +125,7 @@ public abstract class Enemy : MonoBehaviour
         if (hitRight.collider != null && hitRight.collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("탐지 성공");
-            CancelInvoke();
+            this.CancelInvoke("MovingIntelligence");
             detectedTarget = hitRight.collider;
             isDetect = true;
             targetTransform = hitRight.transform;
@@ -137,7 +134,7 @@ public abstract class Enemy : MonoBehaviour
         else if (hitLeft.collider != null && hitLeft.collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("탐지 성공");
-            CancelInvoke();
+            this.CancelInvoke("MovingIntelligence");
             detectedTarget = hitLeft.collider;
             isDetect = true;
             targetTransform = hitLeft.transform;
@@ -154,10 +151,10 @@ public abstract class Enemy : MonoBehaviour
     public void InTerror()
     {
         Debug.Log("공포 발생");
-        TakeDamage(3);
+        TakeDamage(5);
         isTerrorized = true;
         spriteRenderer.flipX = !spriteRenderer.flipX;
-        CancelInvoke();
+        this.CancelInvoke("MovingIntelligence");
     }
     public abstract void TakeDamage(int damage);
 

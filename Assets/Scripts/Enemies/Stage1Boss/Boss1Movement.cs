@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
-public class DasherMovement : EnemyMovement
+public class Boss1Movement : EnemyMovement
 {
     protected override void Init()
     {
         base.Init();
+        detectRange = 10f;
+        attackRange = 3.5f;
     }
 }

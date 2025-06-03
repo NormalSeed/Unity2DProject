@@ -14,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 2f;
 
     private void Awake() => Init();
-    private void Init()
+    protected virtual void Init()
     {
         rb = GetComponent<Rigidbody2D>();
         distance = detectRange;
