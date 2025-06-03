@@ -143,7 +143,7 @@ public abstract class Enemy : MonoBehaviour
             targetTransform = hitLeft.transform;
             isRight = false;
         }
-        else if (hitRight.collider == null && hitLeft.collider == null && detectedTarget != null)
+        else
         {
             detectedTarget = null;
             isDetect = false;
