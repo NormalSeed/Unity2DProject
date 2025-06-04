@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss1Controller : Enemy
@@ -73,6 +74,18 @@ public class Boss1Controller : Enemy
             isBerserk = true;
             isBerserkFirst = false;
         }
+
+        GameManager.Instance.AddScore(500);
+
+        if (boss1Model.CurHp.Value <= 0)
+        {
+            Dead();
+        }
+    }
+
+    public void Dead()
+    {
+        GameManager.Instance.LoadScene("StageClear");
     }
 
     public override void AttackSkill()

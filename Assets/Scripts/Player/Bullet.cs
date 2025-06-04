@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Bullet : PooledObject
 {
-    private float bulletSpd = 20f;
+    private float bulletSpd = 10f;
     private Rigidbody2D rb;
-    private float holdingTime = 0.5f;
+    private float holdingTime = 1f;
     private float restTime;
     public SpriteRenderer bulletSR;
     private int damage = 1;
@@ -45,10 +45,11 @@ public class Bullet : PooledObject
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+                Debug.Log("적에게 맞춤");
                 ReturnPool();
             }
         }
-        else
+        else if(collision != null)
         {
             ReturnPool();
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSkillController : MonoBehaviour
 {
     private PlayerController controller;
+    private SkillManager skillManager;
     private SkillView view;
 
     public bool canUseSkill;
@@ -13,6 +14,7 @@ public class PlayerSkillController : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
+        skillManager = GetComponentInChildren<SkillManager>();
         view = GetComponent<SkillView>();
         canUseSkill = true;
     }
@@ -22,25 +24,25 @@ public class PlayerSkillController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                SkillManager.Instance.playerQ.CanUseSkill();
+                skillManager.playerQ.CanUseSkill();
                 canUseSkill = false;
                 coGeneralSkillCool = StartCoroutine(CoGeneralSkillCool());
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
-                SkillManager.Instance.playerW.CanUseSkill();
+                skillManager.playerW.CanUseSkill();
                 canUseSkill = false;
                 coGeneralSkillCool = StartCoroutine(CoGeneralSkillCool());
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                SkillManager.Instance.playerE.CanUseSkill();
+                skillManager.playerE.CanUseSkill();
                 canUseSkill = false;
                 coGeneralSkillCool = StartCoroutine(CoGeneralSkillCool());
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                SkillManager.Instance.playerR.CanUseSkill();
+                skillManager.playerR.CanUseSkill();
                 canUseSkill = false;
                 coGeneralSkillCool = StartCoroutine(CoGeneralSkillCool());
             }

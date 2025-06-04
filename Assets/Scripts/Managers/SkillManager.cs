@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillManager : Singleton<SkillManager>
+public class SkillManager : MonoBehaviour
 {
     public bool IsUsingSkill;
 
@@ -14,6 +14,7 @@ public class SkillManager : Singleton<SkillManager>
     public Animator animator;
     public SpriteRenderer spriteRenderer;
     [SerializeField] public GameObject rSkillTerritory;
+    [SerializeField] public GameObject SkillWindow;
     private void Awake()
     {
         Init();
@@ -21,7 +22,6 @@ public class SkillManager : Singleton<SkillManager>
 
     private void Init()
     {
-        base.SingletonInit();
         playerQ = GetComponent<PlayerQ>();
         playerW = GetComponent<PlayerW>();
         playerE = GetComponent<PlayerE>();
@@ -31,5 +31,10 @@ public class SkillManager : Singleton<SkillManager>
         spriteRenderer.enabled = false;
 
         IsUsingSkill = false;
+    }
+
+    private void Update()
+    {
+        
     }
 }

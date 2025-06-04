@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class PlayerE : Skill
 {
-    private GameObject player;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private PlayerController controller;
     [SerializeField] private float dashSpeed;
     private Coroutine cantControllTime;
 
     protected override void Init()
     {
-        player = GameObject.Find("Player");
+        base.Init();
         rb = player.GetComponent<Rigidbody2D>();
         spriteRenderer = player.GetComponent<SpriteRenderer>();
-        controller = player.GetComponent<PlayerController>();
     }
 
     protected override void Update()

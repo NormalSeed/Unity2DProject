@@ -98,6 +98,17 @@ public class PlayerController : MonoBehaviour
         // TODO: 공격을 받으면 model의 CurHp가 감소하게 하고 UI의 HP 갯수를 하나 줄여야 함
         if (model.CurHp.Value > 0 && isDamagable) model.CurHp.Value -= damage;
         coDamagable = StartCoroutine(CoDamagable());
+
+        if (model.CurHp.Value <= 0)
+        {
+            Dead();
+        }
+    }
+
+    public void Dead()
+    {
+        GameManager.Instance.isGameOver = true;
+        GameManager.Instance.LoadScene("GameOver");
     }
 
     public IEnumerator CoDamagable()

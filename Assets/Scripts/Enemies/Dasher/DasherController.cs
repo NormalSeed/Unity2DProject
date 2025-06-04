@@ -61,6 +61,7 @@ public class DasherController : Enemy
     {
         if (model.CurHp.Value > 0) model.CurHp.Value -= damage;
         if (model.CurHp.Value <= 0) gameObject.SetActive(false);
+        GameManager.Instance.AddScore(100);
     }
 
     public override void AttackSkill()

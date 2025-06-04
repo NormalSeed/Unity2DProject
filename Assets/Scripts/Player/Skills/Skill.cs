@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-
+    public GameObject player;
+    public PlayerController controller;
+    public SkillManager skillManager;
     [SerializeField] public float cooldown;
     public float cooldownTimer;
 
@@ -12,7 +14,9 @@ public class Skill : MonoBehaviour
 
     protected virtual void Init()
     {
-
+        player = GameObject.Find("Player");
+        controller = player.GetComponent<PlayerController>();
+        skillManager = player.GetComponentInChildren<SkillManager>();
     }
     protected virtual void Update()
     {
