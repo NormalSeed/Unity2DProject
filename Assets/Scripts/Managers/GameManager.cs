@@ -31,20 +31,8 @@ public class GameManager : Singleton<GameManager>
 
     public void LoadScene(string sceneName)
     {
-        if (SoundManager.Instance.audioBgm != null)
-        {
-            SoundManager.Instance.StopBGM();
-        }
         previousSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(sceneName);
-        if (sceneName == "Stage1")
-        {
-            SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_STAGE);
-        }
-        else if (sceneName == "Title")
-        {
-            SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_TITLE);
-        }
     }
 
     public void LoadPreviousScene()
@@ -59,18 +47,21 @@ public class GameManager : Singleton<GameManager>
     public void OnStartButtonClicked()
     {
         LoadScene("Stage1");
+        SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_STAGE);
     }
 
     public void OnRestartButtonClicked()
     {
         LoadPreviousScene();
         if (isGameOver) isGameOver = false;
+        SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_STAGE);
     }
 
     public void OnTitleButtonClicked()
     {
         LoadScene("Title");
         if (isGameOver) isGameOver = false;
+        SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_TITLE);
     }
     public void AddScore(int newScore)
     {
