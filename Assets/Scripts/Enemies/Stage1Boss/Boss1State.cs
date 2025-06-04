@@ -23,9 +23,14 @@ public class Boss1State : BaseState
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Terrorized]);
         }
 
-        if (controller.isDetect && !controller.isTerrorized)
+        if (controller.isDetect && !controller.isTerrorized && !controller.isHalf)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Detect]);
+        }
+
+        if (controller.isHalf)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.SpAttack1]);
         }
     }
 
@@ -50,7 +55,7 @@ public class Boss1_Idle : Boss1State
     public override void Update()
     {
         base.Update();
-        if (controller.nextMove != 0)
+        if (controller.nextMove != 0 && !controller.isHalf)
         {
             controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Run]);
         }
@@ -225,7 +230,68 @@ public class Boss1_Terrorized : Boss1State
 
 public class Boss1_SpAttack1 : Boss1State
 {
+    private float markCooldown = 2f;
+
     public Boss1_SpAttack1(Boss1Controller _controller) : base(_controller)
     {
+        HasPhysics = false;
+    }
+
+    public override void Enter()
+    {
+        controller.view.PlayAnimation(controller.IDLE_HASH);
+        controller.SpAttack1();
+    }
+
+    public override void Update()
+    {
+        markCooldown -= Time.deltaTime;
+        if (markCooldown < 0 && !controller.isBerserk)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
+        }
+        else if (markCooldown < 0 && controller.isBerserk)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.SpAttack2]);
+        }
+        if (controller.isTerrorized)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Terrorized]);
+        }
+    }
+
+    public override void Exit()
+    {
+        markCooldown = 2f;
+    }
+}
+
+public class Boss1_SpAttack2 : Boss1State
+{
+    private float cooldown = 3f;
+    public Boss1_SpAttack2(Boss1Controller _controller) : base(_controller)
+    {
+        HasPhysics = false;
+    }
+
+    public override void Enter()
+    {
+        controller.view.PlayAnimation(controller.IDLE_HASH);
+        controller.SpAttack2();
+    }
+
+    public override void Update()
+    {
+        cooldown -= Time.deltaTime;
+        if (cooldown < 0)
+        {
+            controller.stateMachine.ChangeState(controller.stateMachine.stateDic[EState.Idle]);
+        }
+    }
+
+    public override void Exit()
+    {
+        controller.isBerserk = false;
+        controller.isDamagable = true;
     }
 }

@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
     public Transform targetTransform;
     public float attackSpeed = 5f;
 
-    private void Awake() => Init();
+    protected void Awake() => Init();
 
     private void Update()
     {
@@ -41,7 +41,7 @@ public abstract class Enemy : MonoBehaviour
         stateMachine.Update();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         stateMachine.FixedUpdate();
     }
@@ -80,7 +80,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("TerrorTrigger"))
         {
@@ -92,7 +92,6 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void MovingIntelligence()
     {
         this.CancelInvoke("MovingIntelligence");
-        Debug.Log($"Invoke 실행됨 - 호출된 위치: {GetType().Name}");
         nextMove = Random.Range(-1, 2);
         movingLatency = Random.Range(2f, 4f);
         this.Invoke(nameof(MovingIntelligence), movingLatency);
@@ -124,7 +123,6 @@ public abstract class Enemy : MonoBehaviour
 
         if (hitRight.collider != null && hitRight.collider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("탐지 성공");
             this.CancelInvoke("MovingIntelligence");
             detectedTarget = hitRight.collider;
             isDetect = true;
@@ -133,7 +131,6 @@ public abstract class Enemy : MonoBehaviour
         }
         else if (hitLeft.collider != null && hitLeft.collider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("탐지 성공");
             this.CancelInvoke("MovingIntelligence");
             detectedTarget = hitLeft.collider;
             isDetect = true;
@@ -150,7 +147,6 @@ public abstract class Enemy : MonoBehaviour
 
     public void InTerror()
     {
-        Debug.Log("공포 발생");
         TakeDamage(5);
         isTerrorized = true;
         spriteRenderer.flipX = !spriteRenderer.flipX;
