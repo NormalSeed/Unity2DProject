@@ -13,12 +13,15 @@ public class GameManager : Singleton<GameManager>
     private static string previousSceneName;
 
     private void Awake() => Init();
-
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_TITLE);
+    }
     private void Init()
     {
         base.SingletonInit();
         isGameOver = false;
-        SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_TITLE);
+        
     }
 
     private void Update()

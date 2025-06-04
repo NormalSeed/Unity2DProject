@@ -87,6 +87,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("DeadZone"))
+        {
+            TakeDamage(5);
+        }
+    }
+
     private IEnumerator CoReactivate()
     {
         yield return new WaitForSeconds(0.5f);
