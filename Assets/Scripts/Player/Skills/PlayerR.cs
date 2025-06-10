@@ -21,8 +21,8 @@ public class PlayerR : Skill
 
     public void SkillFinished()
     {
-        skillManager.animator.SetBool("IsRSkill", false);
-        skillManager.spriteRenderer.enabled = false;
+        SkillManager.Instance.animator.SetBool("IsRSkill", false);
+        SkillManager.Instance.spriteRenderer.enabled = false;
     }
 
     IEnumerator CoCantControllTime()
@@ -31,14 +31,14 @@ public class PlayerR : Skill
         controller.movement.rb.drag = 1000;
         controller.coDamagable = StartCoroutine(controller.CoDamagable());
         yield return new WaitForSeconds(0.5f);
-        skillManager.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 0.9f);
-        skillManager.spriteRenderer.enabled = true;
-        skillManager.animator.SetBool("IsRSkill", true);
-        skillManager.rSkillTerritory.SetActive(true);
+        SkillManager.Instance.transform.position = new Vector3(player.transform.position.x, player.transform.position.y - 0.9f);
+        SkillManager.Instance.spriteRenderer.enabled = true;
+        SkillManager.Instance.animator.SetBool("IsRSkill", true);
+        SkillManager.Instance.rSkillTerritory.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
         controller.movement.rb.drag = 1;
         controller.isControllActivated = true;
-        skillManager.rSkillTerritory.SetActive(false);
+        SkillManager.Instance.rSkillTerritory.SetActive(false);
     }
 }

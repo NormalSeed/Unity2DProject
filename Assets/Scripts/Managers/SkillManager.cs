@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillManager : MonoBehaviour
+public class SkillManager : Singleton<SkillManager>
 {
     public bool IsUsingSkill;
 
@@ -22,6 +22,7 @@ public class SkillManager : MonoBehaviour
 
     private void Init()
     {
+        SingletonInit();
         playerQ = GetComponent<PlayerQ>();
         playerW = GetComponent<PlayerW>();
         playerE = GetComponent<PlayerE>();
