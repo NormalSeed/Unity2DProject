@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Skill : MonoBehaviour
 {
     public GameObject player;
     public PlayerController controller;
+    public BulletController bulletController;
+    public Rigidbody2D rb;
+    public SpriteRenderer playerSpriteRenderer;
     [SerializeField] public float cooldown;
     public float cooldownTimer;
 
@@ -13,9 +18,9 @@ public class Skill : MonoBehaviour
 
     protected virtual void Init()
     {
-        player = GameObject.Find("Player");
-        controller = player.GetComponent<PlayerController>();
+
     }
+
     protected virtual void Update()
     {
         if(cooldownTimer >= 0)

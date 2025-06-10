@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerQ : Skill
 {
-    private BulletController bulletController;
     [SerializeField] private float fFireDelay;
     private WaitForSeconds fireDelay;
     public Coroutine coDoubleShot;
@@ -13,7 +12,6 @@ public class PlayerQ : Skill
     {
         base.Init();
         fireDelay = new WaitForSeconds(fFireDelay);
-        bulletController = player.GetComponentInChildren<BulletController>();
     }
 
     public override void UseSkill()

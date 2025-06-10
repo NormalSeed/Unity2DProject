@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,7 +61,15 @@ public class DasherController : Enemy
     public override void TakeDamage(int damage)
     {
         if (model.CurHp.Value > 0) model.CurHp.Value -= damage;
-        if (model.CurHp.Value <= 0) gameObject.SetActive(false);
+        if (model.CurHp.Value <= 0)
+        {
+            Dead();
+        }
+    }
+
+    private void Dead()
+    {
+        gameObject.SetActive(false);
         GameManager.Instance.AddScore(100);
     }
 

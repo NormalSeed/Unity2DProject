@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class PlayerE : Skill
 {
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+
     [SerializeField] private float dashSpeed;
     private Coroutine cantControllTime;
 
     protected override void Init()
     {
         base.Init();
-        rb = player.GetComponent<Rigidbody2D>();
-        spriteRenderer = player.GetComponent<SpriteRenderer>();
     }
 
     protected override void Update()
@@ -27,7 +24,7 @@ public class PlayerE : Skill
 
         if (cantControllTime != null)
         {
-            if (!spriteRenderer.flipX)
+            if (!playerSpriteRenderer.flipX)
             {
                 rb.velocity = new Vector2(dashSpeed, rb.velocity.y);
             }

@@ -7,6 +7,7 @@ public class GameManager : Singleton<GameManager>
 {
     public bool isGameOver;
     public bool isGameCleared;
+    public bool isStageStarted;
     public int score = 0;
     public float timeRemain = 300f;
     public TextMesh scoreText;
@@ -21,16 +22,22 @@ public class GameManager : Singleton<GameManager>
     {
         base.SingletonInit();
         isGameOver = false;
-        
+        isStageStarted = false;
     }
 
     private void Update()
     {
-
+        if (isStageStarted && !isGameOver && !isGameCleared)
+        {
+            timeRemain -= Time.deltaTime;
+        }
     }
 
     public void LoadScene(string sceneName)
     {
+        SkillManager.Instance.gameObject.SetActive(false);
+        timeRemain = 300f;
+        SkillManager.Instance.player = null;
         previousSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(sceneName);
     }
@@ -47,13 +54,16 @@ public class GameManager : Singleton<GameManager>
     public void OnStartButtonClicked()
     {
         LoadScene("Stage1");
+        SkillManager.Instance.gameObject.SetActive(true);
         SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_STAGE);
+        if (!isStageStarted) isStageStarted = true;
     }
 
     public void OnRestartButtonClicked()
     {
         LoadPreviousScene();
         if (isGameOver) isGameOver = false;
+        if (isGameCleared) isGameCleared = false;
         SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_STAGE);
     }
 
@@ -61,6 +71,7 @@ public class GameManager : Singleton<GameManager>
     {
         LoadScene("Title");
         if (isGameOver) isGameOver = false;
+        if (isGameCleared) isGameCleared = false;
         SoundManager.Instance.PlayBGM(SoundManager.EBgm.BGM_TITLE);
     }
     public void AddScore(int newScore)

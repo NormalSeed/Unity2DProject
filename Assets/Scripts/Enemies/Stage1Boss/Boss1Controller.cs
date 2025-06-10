@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -75,8 +76,6 @@ public class Boss1Controller : Enemy
             isBerserkFirst = false;
         }
 
-        GameManager.Instance.AddScore(500);
-
         if (boss1Model.CurHp.Value <= 0)
         {
             Dead();
@@ -85,6 +84,10 @@ public class Boss1Controller : Enemy
 
     public void Dead()
     {
+        GameManager.Instance.AddScore(500);
+        GameManager.Instance.AddScore(Convert.ToInt32(GameManager.Instance.timeRemain * 100));
+        GameManager.Instance.isGameCleared = true;
+        GameManager.Instance.isStageStarted = false;
         GameManager.Instance.LoadScene("StageClear");
     }
 
@@ -122,7 +125,7 @@ public class Boss1Controller : Enemy
         int rand;
         do
         {
-            rand = Random.Range(0, 6);
+            rand = UnityEngine.Random.Range(0, 6);
         } 
         while 
             (rand == prevSpawnedMark);
